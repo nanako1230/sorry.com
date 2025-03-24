@@ -1,0 +1,260 @@
+<!-- まどか担当 -->
+
+<!-- りおちん1/1 13:51 blog-> post -->
+<!-- りおちん1/2 23:51 likesカウンター追加 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/detail_stamp.css') }}"> 
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<ul id="flashContainer" class="flashes"></ul>
+
+<div class="post-detail-container">
+
+  <main class="post-content">
+    <div class="post-info">
+        <h2 class="post-title">{{ post.title }}</h2>
+        <div class="post-details">
+            <p class="user-name">{{ post.user_name }}</p><br>
+            
+            <p class="created_at">{{ post.created_at }}</p>
+        </div>
+    </div>
+
+    <p>宛先：{{post.address}}</p>
+
+    <div class="tags">
+        <p>タグ：</p>
+        {% for tag in post.tags %}
+            <span class="tag">{{ tag.name }}</span>
+        {% endfor %}
+    </div>
+
+    <!-- コピー対象プレビュー -->
+    <div class="textarea-wrapper">
+        <textarea readonly id="copyTarget" cols="40" rows="10">{{ post.body }}
+        </textarea>
+        <button type="button" class="copy-button" onclick="copyToClipboard()">
+            <i class="far fa-copy" style="color: #6B7280"></i>
+        </button>
+
+        <!-- 🪵1/8(水) 言い方を変えるボタン（アイコン付き） -->
+        <button type="button" id="changeButton" class="change-button">
+            <i class="fa fa-magic" style="color: #6B7280"></i>
+        </button>
+    </div>
+
+    <div class="post-actions">
+        <!-- いいねぼたん -->
+        <button class="like-button" onclick="likePost({{ post.id }})">
+            <span class="like-icon" style="color: #EC4899">&#9825;</span>
+            <span class="like-count" id="like-count-{{ post.id }}" style="color: #EC4899">{{ post.likes }}</span>
+        </button>
+
+        <!-- 編集ボタン -->
+        <div class="post-actions">
+            <a href="{{ url_for('edit_post', id=post.id) }}" class="btn btn-primary">
+                <button class="edit-button">保存して編集</button>
+            </a>
+        </div>
+    </div>
+  </main>
+</div>
+
+<!-- 慰めスタンプ投稿セクション -->
+
+<div class="comfort-section">
+    <h3>反応を投稿</h3>
+    
+    <div class="comfort-submit-section">
+
+        <div id="stamp-container">
+            {% for stamp in stamps %}
+                <div class="stamp-item">
+                    <input type="radio" name="stamp" value="{{ stamp.id }}" id="stamp{{ stamp.id }}">
+                    <label for="stamp{{ stamp.id }}">
+                        <img src="{{ url_for('static', filename=stamp.image_url) }}" alt="Stamp {{ stamp.id }}" class="stamp-image">
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="submit-icon-container">
+            <button id="submit-comfort" data-post-id="{{ post.id }}" data-user-id="{{ current_user.id }}">
+                <i class="fas fa-paper-plane submit-icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <h3>{{ post.title }}への反応</h3>
+
+    {% for comfort in post.comforts %}
+        <div class="comfort">
+            <p><strong>{{ comfort.user_name }}</strong></p>
+            <div class="comment-bubble">
+                <p>
+                    <img src="{{ url_for('static', filename=comfort.stamp.image_url) }}" alt="stamp" width="30" height="30">
+                </p>
+                <p>{{ comfort.comment_text }}</p> <!-- ここでコメント内容を表示 -->
+            </div>
+        </div>
+    {% else %}
+        <p>まだコメントはありません。</p>
+    {% endfor %}
+    
+</div>
+
+
+
+
+<!-- 削除セクション -->
+<div class="delete-section">
+  <form action="{{ url_for('delete_post', id=post.id) }}" method="post" novalidate="novalidate">
+    <input type="hidden" name="_method" value="DELETE">
+    <p><button type="submit" class="delete-btn">投稿を削除</button></p>
+  </form>
+</div>
+
+<script>
+  //🪵1/8(水)テンプレを言い換える部分（詳細画面）
+  console.log(document.querySelector("#changeButton")); 
+  const changeButton = document.querySelector("#changeButton");
+  console.log("changeButton:", changeButton);
+  const change_phrase_url = "{{ url_for('change_phrase', id=post.id) }}"
+
+  changeButton.addEventListener('click',function(event){
+        console.log("ボタンがクリックされました"); // デバッグ用ログ
+
+        const copyTarget = document.getElementById("copyTarget");
+        const flashContainer = document.querySelector('.flashes');  // フラッシュメッセージを表示するコンテナ
+
+        console.log("API URL:", change_phrase_url); // エンドポイントURLの確認
+        // コメントを取得するためにAPIにリクエストを送る
+        fetch(change_phrase_url)
+        .then(response => {
+            // レスポンスが正常かどうかチェック
+            if (!response.ok) {
+                throw new Error('ごめんなさい、うまく言い換えられなかったです...');
+            }
+            return response.json(); // レスポンスをJSON形式で返す
+        })
+        .then(data => {
+            // 取得したコメントをコメントボックスに設定
+            // ここで`data.new_body`が実際に取得するコメントの内容だと仮定
+            copyTarget.value = data.new_body; // `data.new_body`はAPIから取得したコメント内容
+
+            // フラッシュメッセージを表示する
+                if (data.messages && data.messages.length > 0) {
+                    // フラッシュメッセージがあれば、既存のメッセージを消して新しいメッセージを表示
+                    flashContainer.innerHTML = '';
+                    data.messages.forEach(message => {
+                        const li = document.createElement('li');
+                        li.textContent = message;
+                        flashContainer.appendChild(li);
+                    });
+                }
+        })
+        .catch(error => {
+            // エラーハンドリング
+            console.error('エラー:', error);
+        });
+  });
+
+  // 🪵1/4?コピー部分
+  function copyToClipboard() {
+    const copyTarget = document.getElementById("copyTarget");
+    copyTarget.select();
+    document.execCommand("Copy");
+    alert("コピーできました！ : " + copyTarget.value);
+  }
+
+
+//🪵いいねカウントのスクリプト
+    function likePost(postId) {
+        fetch(`/posts/${postId}/like`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ post_id: postId })
+        })
+        .then(response => response.json())
+        .then(data => {
+        // いいねカウントを更新
+        document.getElementById('like-count-' + postId).textContent = data.likes;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+
+
+</script>
+
+
+<script>
+document.getElementById("submit-comfort").addEventListener("click", function() {
+    // 1. 投稿IDを取得
+    const postId = this.getAttribute('data-post-id');
+
+    // 2. 選択されたスタンプを取得
+    const selectedStamp = document.querySelector('input[name="stamp"]:checked');
+    
+    // スタンプが選ばれていない場合
+    if (!selectedStamp) {
+        alert("スタンプを選択してください！");
+        return;
+    }
+
+    // 3. 選ばれたスタンプIDを取得
+    const stampId = selectedStamp.value; 
+
+    // 4. ユーザーID（仮）
+    const userName = this.getAttribute('data-user-name');
+
+    // 5. サーバーに送信するデータを作成
+    const comfortData = {
+        post_id: postId,
+        stamp_id: stampId,
+        user_name: userName
+    };
+
+    // 6. Fetch APIでコメント投稿
+    fetch(`/posts/${postId}/comfort`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(comfortData)
+    })
+    .then(response => {
+        if (response.status === 401) {  // ログインが必要な場合
+            return response.json();  // JSONとして解析
+        }
+        return response.json();  // 正常なレスポンス
+    })
+    .then(data => {
+        if (data.redirect) {  // リダイレクトフラグがtrueの場合
+            alert("ログインが必要です。");
+            window.location.href = '/login';  // ログインページにリダイレクト
+        } else {
+            // コメントが正常に投稿された場合
+            alert("コメントが正常に投稿されました！");
+            location.reload();
+            console.log('成功:', data);
+        }
+    })
+    .catch((error) => {
+        alert("エラーが発生しました。");
+        console.error('エラー:', error);
+    });
+});
+
+
+</script>
+
+
+
+{% endblock %}

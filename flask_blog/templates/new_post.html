@@ -1,0 +1,251 @@
+<!-- りおちん担当 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/new_post.css') }}"> 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<!-- あおい編集 -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+<!-- あおい編集おわり -->
+
+<!-- 👇ここは一旦Slackに保存してます -->
+<!-- 🪵新規タグ作成ポップアップ全体 -->
+
+<div id="tagPopup" class="popup-overlay" style="display: none;">
+  <!-- ポップアップの内容 -->
+  <div class="popup-content">
+    <span class="close-btn" id="closeTagPopup">&times;</span>
+    <h3>新しい宛先を作成</h3>
+    <form
+      action="{{url_for('create_tag')}}" /*1/9 23:17🪵りおちん追加 , 1/12引数なしに*/ 
+      method="post"
+      novalidate="novalidate"
+      >
+      <label for="new-tag"></label>
+      <input type="text" id="new-tag" name="new_tag" placeholder="ガチ謝罪" required />
+      <button type="submit">作成</button>
+    </form>
+  </div>
+</div>
+
+<!-- 🪵終わり -->
+
+<div>
+  <form
+  action="{{url_for('post_create')}}"
+  method="post"
+  novalidate="novalidate"
+  >
+    <p>
+      <label for="title">タイトル：</label><input type="text" name="title" placeholder="バイト先への謝罪" value="{{ post.title if post else '' }}" />
+    </p>
+    <p>
+      <label for="address">宛先：</label><input type="text" name="address" placeholder="店長" value="{{ post.address if post else '' }}" />
+    </p>
+    <p>
+        <label for="user_name">user_name：</label><input type="text" placeholder="user_nameを入力してください" name="user_name" value="" />
+    </p>
+    <p>
+        <label for="user_id">user_id：</label><input type="text" placeholder="user_idを入力してください" name="user_id" value="" />
+    </p>
+    <!-- 本文エリア -->
+    <p class="textarea-wrapper">
+        <label for="body">本文：</label>
+        <textarea name="body" cols="40" rows="10" id="copyBodyTarget" placeholder="本日遅刻します。ごめんなさい。">{{ post.body if post else '' }}</textarea>
+        <button type="button" class="copy-button" onclick="copyBodyToClipboard()">
+            <i class="far fa-copy" style="color: #6B7280"></i>
+        </button>
+    </p>
+    
+
+    <div>
+      <p>言い回し：</p>
+      <ul id = "phrases">
+        <li>＜宛先＞</li>
+        <li>＜自分の名前＞</li>
+        <li>＜職場＞</li>
+        <li>＜日時＞</li>
+        <li>＜電車の名前＞</li>
+      </ul>
+    </div>
+
+    <!-- 🪵りおちん編集 -->
+    <p>
+        <label for="tag">タグ：</label>
+        <select name="tag" id="tag">
+            <option value="" disabled selected>タグを選択してください</option>
+            <option value="new">+ 新規タグ作成</option> <!-- 特殊なオプション -->
+            {% for tag in tags %}
+            <option value="{{ tag.id }}">{{ tag.name }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <!-- 選択中のタグを表示 -->
+    <div>
+        <p>選択中のタグ</p>
+        <ul id="selectedTags"></ul> <!-- 選択中のタグリスト -->
+    </div>
+    <input type="hidden" name="tag_ids" id="tagIdsInput">
+    <!-- 🪵りおちん編集終わり -->
+
+    <!-- 🐠あおい編集 -->
+    <!-- タグ選択 -->
+    <!-- 「タグを追加」ボタン -->
+    <button id="openTagPopup">タグを追加</button>
+
+    
+
+
+    <!-- あおい編集おわり --> 
+
+    <!-- 保存ボタン -->
+    <div class="submitBt">
+      <p><button type="submit">保存</button></p>
+    </div>
+
+    <!-- 公開ですか？ON/OFFトグル -->
+    <div class="privateToggle">
+      <p>非公開：</p>
+      <input id="toggle" class="toggle_input" type='checkbox' />
+      <label for="toggle" class="toggle_label" />
+    </div>
+  </form>
+</div>
+
+
+<!-- 詳細設定セクション -->
+<div class="details-wrapper">
+<details>
+  <summary>詳細設定<span class="icon"></span>
+  </summary>
+  <form action="{{url_for('post_create')}}" method="post" novalidate="novalidate">
+
+    <p>
+        <label for="formal">フォーマル度：</label>
+        カジュアル
+        <input type="range" id="formal" name="formal" min="0" max="100" value="90" step="10" />
+        フォーマル
+    </p>
+    
+    <div id="formats">
+      <p>フォーマット：</p>
+      <div class="radio-wrap">
+        <input type="radio" id="email" name="format" value="メール" checked>
+        <label for="email">メール</label>
+        
+        <input type="radio" id="line" name="format" value="LINE">
+        <label for="line">LINE</label>
+        
+        <input type="radio" id="slack" name="format" value="Slack">
+        <label for="slack">Slack</label>
+      </div>
+    </div>
+
+    <p>
+      <label for="memo">メモ：</label><textarea name="memo" placeholder="謝罪背景、状況などのメモを入力してください。入力した内容はAIに送信されます。" cols="40" rows="10" id="comment_box">メモを入れる</textarea>
+    </p>
+    <p><button type="submit">AI添削</button></p>
+
+    <!-- コピー対象プレビュー -->
+    <div class="textarea-wrapper">
+      <textarea readonly id="copyTarget" cols="40" rows="10">
+          コピー対象の文言（読み取り専用）
+      </textarea>
+      <button type="button" class="copy-button" onclick="copyToClipboard()">
+          <i class="far fa-copy" style="color: #6B7280"></i>
+      </button>
+    </div>
+  </form>
+</details>
+</div>
+
+
+<script>
+
+
+ // 🪵りおちん編集開始
+
+    document.getElementById('tag').addEventListener('change', function() {
+        if (this.value === 'new'){
+            const popup = document.getElementById('tagPopup')
+            popup.style.display = 'flex';
+            popup.scrollIntoView({behavior: 'smooth'}); // ポップアップにスクロール
+
+            //セレクトをリセットする
+            this.value = '';
+        }
+    });
+
+    // ポップアップを閉じるボタンの挙動
+    document.getElementById('closeTagPopup').addEventListener('click', function () {
+        const popup = document.getElementById('tagPopup');
+        popup.style.display = 'none'; // ポップアップを非表示
+    });
+
+    // 背景をクリックしてポップアップを閉じる
+    document.getElementById('tagPopup').addEventListener('click', function (e) {
+        if (e.target === this) {
+            this.style.display = 'none'; // ポップアップを非表示
+        }
+    });
+
+</script>
+
+<script>
+    // 選択中のタグIDを保持するリスト
+    const selectedTagIds = new Set(); // 重複を防ぐためSetを使用
+    const selectedTagsElement = document.getElementById('selectedTags');
+
+    // ドロップダウンの選択イベント
+    document.getElementById('tag').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const tagId = selectedOption.value;
+        const tagName = selectedOption.text;
+
+        // 既に選択済みの場合は追加しない
+        if (selectedTagIds.has(tagId)) {
+            alert('このタグは既に選択済みです。');
+            this.value = ''; // ドロップダウンの選択をリセット
+            return;
+        }
+
+        // タグをセットに追加し、リストに表示
+        selectedTagIds.add(tagId);
+        const listItem = document.createElement('li');
+        listItem.textContent = tagName;
+        listItem.dataset.tagId = tagId; // タグIDをデータ属性に保存
+
+        // 削除ボタンを追加
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = '×';
+        deleteButton.style.marginLeft = '10px';
+        deleteButton.addEventListener('click', function() {
+            // リストから削除
+            selectedTagIds.delete(tagId);
+            listItem.remove();
+            updateTagIdsInput();
+        });
+
+        listItem.appendChild(deleteButton);
+        selectedTagsElement.appendChild(listItem);
+
+        // ドロップダウンの選択をリセット
+        this.value = '';
+
+        //タグIDを更新
+        updateTagIdsInput();
+    });
+
+    function updateTagIdsInput() {
+        // `Set` を `Array` に変換して JSON 文字列にする
+        const jsonTagIds = JSON.stringify(Array.from(selectedTagIds));
+        document.getElementById('tagIdsInput').value = jsonTagIds;
+    }
+</script>
+{% endblock %}

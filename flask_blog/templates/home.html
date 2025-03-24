@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}"> 
+
+<div class="home-container">
+    <h1>ごめんなさい.comへようこそ！</h1>
+    <div class="button-container">
+        <button class="login-btn"><a href="{{ url_for('login') }}"> ログイン </a></button>
+        <button class="register-btn"><a href="{{ url_for('register') }}"> 新規登録 </a></button>
+    </div>
+</div>
+{% endblock %}

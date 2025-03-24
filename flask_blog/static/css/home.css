@@ -1,0 +1,68 @@
+/* 背景全体のスタイル */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F6F4F3;
+    color: #333;
+}
+
+/* ホームページ全体の中央配置 */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* タイトルのスタイル */
+.home-container h1 {
+    color: #F2BE2F;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+/* ボタンのコンテナ */
+.button-container {
+    display: flex;
+    gap: 1rem;
+}
+
+/* ボタン共通のスタイル */
+button {
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* ログインボタン */
+.login-btn {
+    background-color: #F2BE2F;
+    color: #fff;
+}
+
+.login-btn a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* 新規登録ボタン */
+.register-btn {
+    background-color: #BAC550;
+    color: #fff;
+}
+
+.register-btn a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* ボタンのホバー効果 */
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

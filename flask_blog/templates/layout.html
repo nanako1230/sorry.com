@@ -1,0 +1,82 @@
+<html lang="ja">
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="{{url_for('static', filename='images/logo.png')}}" alt="Logo" width="80" height="80" onclick="showFlashMessage()">
+            <span>ごめんなさい.com</span>
+        </div>
+        <!-- <button>
+            <i class="fas fa-bars" style="color: #FFB800; font-size: 1.5rem;"></i>
+        </button> -->
+        {% if current_user.is_authenticated %}
+            {{ current_user.user_name }}でログイン中
+        {% endif %}
+
+        <div class="nav">
+    
+            <!-- ハンバーガーメニューの表示・非表示を切り替えるチェックボックス -->
+            <input id="drawer_input" class="drawer_hidden" type="checkbox">
+        
+            <!-- ハンバーガーアイコン -->
+            <label for="drawer_input" class="drawer_open"><span></span></label>
+        
+            <!-- メニュー -->
+            <nav class="nav_content">
+              <ul class="nav_list">
+                <li class="nav_item"><a href="{{ url_for("post_index") }}">投稿一覧</a></li>
+                <li class="nav_item"><a href="{{ url_for('post_create') }}">新規作成</a></li>
+                <li class="nav_item"><a href="{{ url_for("post_mypage") }}">マイページ</a></li>
+              </ul>
+            </nav>
+            
+          </div>
+    </header>
+
+    <!-- 編集成功！とかのメッセージとか -->
+    <ul class="flashes" id="flashContainer">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </ul>
+
+
+    <script>
+        function showFlashMessage() {
+            fetch('/flash_message', { method: 'POST' })
+                .then(response => response.json()) // レスポンスをJSONとして解析
+                .then(data => {
+                    const flashContainer = document.getElementById('flashContainer'); // flashContainerの取得
+                    
+                    if (data.message) {
+                        // 既存のメッセージをクリアして新しいメッセージを表示
+                        flashContainer.innerHTML = '';
+                        const li = document.createElement('li');
+                        li.textContent = data.message;
+                        flashContainer.appendChild(li);
+                    }
+                })
+                .catch(error => console.error('Error:', error)); // エラーハンドリング
+        }
+    </script>
+
+    
+    
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        <br><br><p>&copy; 2025 謝罪工房</p> 
+    </footer>
+
+
+</body>
+</html>

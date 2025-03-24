@@ -1,0 +1,131 @@
+<!-- ゆき担当 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/new_post.css') }}"> 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<!-- あおい編集 -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+<!-- あおい編集おわり -->
+
+<div>
+  <form
+    action="{{url_for('post_create')}}"
+    method="post"
+    novalidate="novalidate"
+    >
+    <p>
+      <label for="title">タイトル：</label><input type="text" name="title" placeholder="バイト先への遅刻" value="{{ post.title if post else '' }}" />
+    </p>
+    <p>
+      <label for="address">宛先：</label><input type="text" name="address" placeholder="店長" value="{{ post.address if post else '' }}" />
+    </p>
+    <p>
+        <label for="user_name">user_name：</label><input type="text" placeholder="user_nameを入力してください" name="user_name" value="" />
+    </p>
+    <p>
+        <label for="user_id">user_id：</label><input type="text" placeholder="user_idを入力してください" name="user_id" value="" />
+    </p>
+    <!-- 本文エリア -->
+    <p class="textarea-wrapper">
+        <label for="body">本文：</label>
+        <textarea name="body" cols="40" rows="10" id="copyBodyTarget" placeholder="本日遅刻します。ごめんなさい。">{{ post.body if post else '' }}</textarea>
+        <button type="button" class="copy-button" onclick="copyBodyToClipboard()">
+            <i class="far fa-copy" style="color: #6B7280"></i>
+        </button>
+    </p>
+    
+
+    <div>
+      <p>言い回し：</p>
+      <ul id = "phrases">
+        <li>＜宛先＞</li>
+        <li>＜自分の名前＞</li>
+        <li>＜職場＞</li>
+        <li>＜日時＞</li>
+        <li>＜電車の名前＞</li>
+      </ul>
+    </div>
+
+    <!-- 保存ボタン -->
+    <div class="submitBt">
+      <p><button type="submit">保存</button></p>
+    </div>
+
+    <!-- 🪵りおちん編集部分 はじまり -->
+
+    <!-- 公開ですか？ON/OFFトグル -->
+    <div class="privateToggle">
+      <p>非公開：</p>
+      <input id="toggle" name="private" class="toggle_input" type='checkbox' />
+      <label for="toggle" class="toggle_label" />
+    </div>
+
+    <!-- 🪵りおちん編集部分 終わり -->
+  </form>
+</div>
+
+
+
+<!-- 詳細設定セクション -->
+<div class="details-wrapper">
+<details>
+  <summary>詳細設定<span class="icon"></span>
+  </summary>
+  <form action="{{url_for('post_create')}}" method="post" novalidate="novalidate">
+
+    <p>
+        <label for="formal">フォーマル度：</label>
+        カジュアル
+        <input type="range" id="formal" name="formal" min="0" max="100" value="90" step="10" />
+        フォーマル
+    </p>
+    
+    <div id="formats">
+      <p>フォーマット：</p>
+      <div class="radio-wrap">
+        <input type="radio" id="email" name="format" value="メール" checked>
+        <label for="email">メール</label>
+        
+        <input type="radio" id="line" name="format" value="LINE">
+        <label for="line">LINE</label>
+        
+        <input type="radio" id="slack" name="format" value="Slack">
+        <label for="slack">Slack</label>
+      </div>
+    </div>
+
+    <p>
+      <label for="memo">メモ：</label><textarea name="memo" placeholder="謝罪背景、状況などのメモを入力してください。入力した内容はAIに送信されます。" cols="40" rows="10" id="comment_box">メモを入れる</textarea>
+    </p>
+    
+    <!-- 💰まどか編集 AI添削出力 はじまり-->
+    <!-- 💰まどか編集 AI添削出力 終わり-->
+
+    <!-- コピー対象プレビュー -->
+    <div class="textarea-wrapper">
+      <textarea readonly id="copyTarget" cols="40" rows="10">
+          コピー対象の文言（読み取り専用）
+      </textarea>
+      <button type="button" class="copy-button" onclick="copyToClipboard()">
+          <i class="far fa-copy" style="color: #6B7280"></i>
+      </button>
+    </div>
+  </form>
+</details>
+</div>
+
+
+<script>
+
+// 💰まどか編集 AI添削結果の出力 はじまり
+// 💰まどか編集 AI添削結果の出力 終わり
+
+</script>
+{% endblock %}

@@ -1,0 +1,279 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main{
+    margin-top: 50px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem; /* 左右に余白を大きく追加 */
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #FFB800;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.search {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 999px;
+    margin: 1rem 0;
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.tag-filter {
+    padding: 0.5rem 1.5rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.tag-filter.active {
+    background: #FFB800;
+    color: white;
+}
+
+.sort {
+    background-color: fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    padding: 0.5rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.5rem;
+}
+
+.grid {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    grid-template-columns: repeat(4, 1fr); /* 横4つ並べ */
+    padding: 0 2rem; /* 左右に余白を追加 */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 最小280px, 最大で可変 */
+}
+
+/* デフォルト: 大きな画面での表示 */
+@media screen and (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 要素が一定の幅で、余白が空く */
+        padding: 0 5rem; /* 左右に余白を追加 */
+        
+    }
+
+    .add-post{
+        height: 100%;
+    }
+}
+
+/* 小さな画面（横幅768px未満）での表示 */
+@media screen and (max-width: 767px) {
+    .grid {
+        grid-template-columns: 1fr; /* 一列に並べる */
+        padding: 0 1.5rem; /* 左右に余白を追加 */
+    }
+
+    .post {
+        aspect-ratio: unset; /* アスペクト比を解除 */
+        width: 100%; /* 横幅を100%に設定 */
+    }
+
+    .add-post {
+        height: 100px; /* 高さを設定して縦幅を削る */
+        padding: 0 1rem; /* 横幅を少し広げて余裕を持たせる */
+    }
+}
+
+.post {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.post-header {
+    margin-bottom: 0.5rem;
+}
+
+.post-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.post-author {
+    color: #666;
+    font-size: 1rem;
+}
+
+.post-content {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #333;
+    flex-grow: 1;
+    overflow: hidden; /* オーバーフローを隠す */
+    text-overflow: ellipsis; /* 省略記号を表示 */
+    display: -webkit-box; /* ボックスモデルを使用 */
+    -webkit-box-orient: vertical; /* 垂直方向にボックスを配置 */
+    -webkit-line-clamp: 3; /* 最大3行に制限 */
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    background: none;
+    border: none;
+}
+.fa-heart {
+    border: none;
+}
+button {
+    border: none;
+    background: transparent;
+}
+button:focus, button:active {
+    outline: none;
+}
+.tag-filter.selected {
+    background-color: F2BE2F;
+    color: white;
+}
+
+
+
+.likes {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.add-post {
+    background: #BAC550;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.add-post i {
+    color: white;
+    font-size: 2rem;
+}
+
+/* ページ切り替えドット */
+.dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: #e5e5e5;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: #FFB800;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 2rem 0;
+}
+
+/* 他のフォームのスタイルを無効化 */
+form.search-form {
+    all: unset; /* 他のスタイルをすべてリセット */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+/* 検索ボックス */
+form.search-form .search {
+    padding: 0.5em;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 250px;
+    margin-right: 10px; /* ボタンとの間隔を調整 */
+}
+
+form.search-form .search:focus {
+    outline: none;
+    border-color: #F2BE2F; /* フォーカス時にメインカラー */
+}
+
+/* 検索ボタン */
+form.search-form .btn-primary {
+    all: unset;
+    background-color: #F2BE2F; /* ボタンの背景色 */
+    color: white; /* テキストカラー */
+    padding: 0.5em 1em;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.fa-copy{
+    font-size: 26px;
+}
+.fa-heart{
+    font-size: 26px;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    position: relative;
+}
+
+.tag-show-more {
+    display: none;
+    cursor: pointer;
+    border: none;
+    background: #f2be2f;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.tags-container.more-tags .tag-show-more {
+    display: inline-block;
+}
+
+.tag-filter.hidden {
+    display: none;
+}
+
+button.tag-filter {
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    margin: 0 3px;
+}

@@ -1,0 +1,384 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    background: #f6f4f3;
+    font-family: 'Kiwi Maru', 'Roboto', sans-serif; /* 日本語：Kiwi Maru、英語：Roboto */}
+
+main {
+  margin-top: 100px; /* ヘッダーの高さ分だけ下げる */
+  padding: 20px; /* コンテンツの余白 */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+h3 {
+    color: #F2BE2F;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    border-bottom: 1px solid #F2BE2F;
+    display: inline-block;
+}
+
+
+.header {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 40px; /* ヘッダーの高さ */
+  background-color: #f6f4f3; /* 背景色 */
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* CSSコード */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* ここから下がハンバーガーメニューに関するCSS */
+  
+/* チェックボックスを非表示にする */
+.drawer_hidden {
+  display: none;
+}
+
+/* ハンバーガーアイコンの設置スペース */
+.drawer_open {
+  display: flex;
+  height: 60px;
+  width: 60px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 100;/* 重なり順を一番上にする */
+  cursor: pointer;
+}
+
+/* ハンバーガーメニューのアイコン */
+.drawer_open span,
+.drawer_open span:before,
+.drawer_open span:after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 25px;
+  border-radius: 3px;
+  background: #f2be2f;
+  transition: 0.5s;
+  position: absolute;
+}
+
+/* 三本線の一番上の棒の位置調整 */
+.drawer_open span:before {
+  bottom: 8px;
+}
+
+/* 三本線の一番下の棒の位置調整 */
+.drawer_open span:after {
+  top: 8px;
+}
+
+/* アイコンがクリックされたら真ん中の線を透明にする */
+#drawer_input:checked ~ .drawer_open span {
+  background: rgba(255, 255, 255, 0);
+}
+
+/* アイコンがクリックされたらアイコンが×印になように上下の線を回転 */
+#drawer_input:checked ~ .drawer_open span::before {
+  bottom: 0;
+  transform: rotate(45deg);
+}
+
+#drawer_input:checked ~ .drawer_open span::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+  
+/* メニューのデザイン */
+.nav_content {
+  width: 150px; /* メニューの幅を固定 */
+  height: auto; /* 高さはコンテンツ量に応じて調整 */
+  position: absolute; /* ページ内のコンテンツの上に重なる */
+  top: 60px; /* ヘッダーの高さに応じて調整 */
+  right: 20px; /* 画面右端から少し離す */
+  z-index: 99;
+  background: #F2BE2F; /* メインカラーに変更 */
+  border: none; /* 境界線を削除 */
+  border-radius: 5px; /* コーナーを少し丸める */
+  transition: 0.3s ease-in-out; /* スムーズなアニメーション */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* メニューに影をつける */
+  padding: 0.5rem; /* 内側に余白を追加 */
+  visibility: hidden; /* 初期状態で非表示 */
+  opacity: 0; /* 非表示時は透明 */
+}
+
+/* メニュー内のリストのスタイリングを調整 */
+/* メニュー内の項目の調整 */
+.nav_list {
+  list-style: none; /* リストのマーカーを削除 */
+  margin: 0;
+  padding: 0;
+}
+
+.nav_item {
+  margin: 0.5rem 0; /* 項目ごとの間隔 */
+}
+
+.nav_item a {
+  text-decoration: none; /* 下線を削除 */
+  color: #fff; /* 文字色をホワイトに変更 */
+  font-size: 1rem;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 3px;
+  transition: background 0.2s, color 0.2s; /* ホバー時のスムーズなアニメーション */
+}
+
+.nav_item a:hover {
+  background: #fff; /* ホバー時の背景色をホワイトに変更 */
+  color: #F2BE2F; /* ホバー時の文字色をメインカラーに変更 */
+}
+
+/* フラッシュメッセージ */
+ul.flashes li {
+    list-style: none;
+    padding: 10px;
+    margin: 25px auto 20px 18px; /* 上部スペース */
+    background-color: #f2be2f; /* メインカラー */
+    border: 1px solid #d9d9d9; /* サブ背景 */
+    border-radius: 50px; /* 丸みを帯びたデザイン */
+    position: relative; /* 矢印を配置するために必要 */
+    width: fit-content; /* コンテンツに応じた幅に調整 */
+}
+
+ul.flashes li:before {
+    content: "";
+    position: absolute;
+    top: -18px; /* ボックスの上に表示 */
+    left: 31px; /* さらに右に移動 */
+    border: 10px solid transparent; /* 矢印をさらに大きく調整 */
+    border-bottom: 10px solid #f2be2f; /* メインカラーに合わせる */
+}
+
+
+ul.flashes li {
+    color: #333;
+    font-size: 18px;
+}
+
+/* メニュー黒ポチを消す */
+.nav_list {
+  list-style: none;
+}
+
+/* アイコンがクリックされたらメニューを表示 */
+#drawer_input:checked ~ .nav_content {
+  visibility: visible; /* 表示する */
+  opacity: 1; /* 完全に表示 */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #FFB800;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* フォーカス時のメインカラー反映（全てのinputとtextarea） */
+input[type="text"]:focus, 
+textarea:focus, 
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus {
+    border-color: #F2BE2F; /* メインカラー */
+    background-color: #FFF8E1; /* 明るめの背景 */
+    outline: none; /* デフォルトのアウトラインを無くす */
+}
+
+/* 入力中のテキストエリアやinputの背景色変更 */
+input[type="text"], 
+textarea {
+    background-color: #F7F7F7; /* 通常の背景 */
+}
+
+input[type="text"]:focus, 
+textarea:focus {
+    background-color: #FFF8E1; /* フォーカス時の背景 */
+}
+
+
+
+/* リンクタグのスタイル */
+a {
+  text-decoration: none; /* デフォルトの下線を削除 */
+  color: #000000
+}
+
+/* フッター */
+footer{
+    text-align: center;
+}
+
+
+/* フォーム */
+form {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #d9d9d9; /* さぶ背景 */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form p {
+    color: #555;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+form input[type="text"], 
+form input[type="password"], 
+form textarea {
+    padding: 10px;
+    border: 1px solid #d9d9d9; /* さぶ背景 */
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f7f7f7; /* 背景 */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form button:hover {
+    transform: scale(1.05); /* 少し大きくなる */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 優しく浮き上がる感じ */
+    color: #ffffff; /* 文字色を白で保つ */
+}
+
+/* アクティブ時（押した時）のスタイル */
+form button:active {
+  transform: scale(0.98); /* 押し込む感じ */
+  box-shadow: none; /* 影をなくして平面感を出す */
+}
+
+form button:not(.copy-button) {
+    background-color: #f2be2f; /* メインカラー */
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50px; /* 丸みを帯びたデザイン */
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block; /* ブロック要素として表示 */
+    margin-left: auto; /* 左のマージンを自動 */
+    margin-right: auto; /* 右のマージンを自動 */
+    transition: all 0.3s ease; /* アニメーションのスムーズさ */
+}
+
+form button:not(.copy-button):focus {
+    outline: 2px dashed #f2be2f; /* メインカラー */
+}
+
+.selectbox {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+select {
+    min-width: 230px;
+    height: 2.5em;
+    padding: .4em calc(.8em + 30px) .4em .8em;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    background-color: #F7F7F7;
+    color: #333;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+select: focus {
+    border-color: #F2BE2F;
+    outline: none; /* デフォルトのアウトラインを消す場合 */
+}
+
+/* rangeバーのスタイル */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #D9D9D9; /* さぶ背景 */
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: #F2BE2F; /* メインカラー1 */
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    background: #F2BE2F; /* メインカラー1 */
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    background: #F2BE2F;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+}

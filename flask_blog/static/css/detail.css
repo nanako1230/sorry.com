@@ -1,0 +1,237 @@
+/* 全体の背景色 */
+main {
+  margin-top: 30px; /* ヘッダーの高さ分だけ下げる */
+  padding: 20px; /* コンテンツの余白 */
+}
+
+
+/* 投稿の詳細コンテナ */
+.post-detail-container {
+  max-width: 1100px; /* コンテナの幅をさらに広げる */
+  margin: 10px auto;
+  padding: 10px 30px;
+}
+
+
+/* ヘッダー */
+.post-header h1 {
+  text-align: center;
+  color: #F2BE2F; /* メインカラー（黄色） */
+  font-size: 36px; /* フォントサイズを大きく */
+  margin: 0 0 20px;
+}
+
+/* 投稿情報 */
+.post-info {
+  border-bottom: 2px solid #D9D9D9;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+.post-details {
+  display: flex;
+  margin-top: 10px;
+  align-items: center; /* 垂直方向で中央揃え */
+  width: 100%; /* 横幅を100%にして左右端を使えるようにする */
+}
+
+.user-name {
+  font-size: 18px; /* フォントサイズを大きく */
+  color: #666; /* グレー */
+  margin: 0;
+}
+
+.created_at {
+  font-size: 12px; /* フォントサイズを小さく */
+  color: #666; /* グレー */
+  margin: 0;
+  margin-left: auto; /* 右端に配置 */
+}
+
+
+.post-title {
+  font-size: 30px; /* フォントサイズを大きく */
+  color: #333333;
+}
+
+/* 本文エリア */
+.textarea-wrapper {
+  position: relative;
+  margin: 20px 0;
+}
+
+/* テキストエリアのスタイル */
+#copyTarget {
+  background-color: #FFFFFF;
+  color: #555555;
+  border: 1px solid #D9D9D9;
+  border-radius: 10px;
+  padding: 15px;
+  width: 100%;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  font-size: 18px; /* フォントサイズを大きく */
+}
+
+/* コピーアイコンのボタン */
+.copy-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px; /* アイコンサイズ */
+  color: #6B7280;
+}
+
+.copy-button:hover {
+  color: #BAC550 !important;
+}
+
+/* 言い方を変えるボタン */
+.change-button {
+  position: absolute;
+  top: 60px; /* コピーアイコンの下に少しスペースを開ける */
+  right: 15px; /* コピーアイコンと同じ右位置 */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px; /* アイコンサイズ */
+  color: #6B7280;
+}
+
+.change-button:hover {
+  color: #BAC550 !important;
+}
+
+
+
+/* アクションボタン */
+.post-actions {
+  display: flex;
+  justify-content: space-between; /* 左右に分ける */
+  align-items: center;
+  gap: 20px;
+}
+
+.share-button, .edit-button, .delete-btn {
+  background-color: #F2BE2F; /* メインカラー */
+  color: #FFFFFF;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px; /* フォントサイズを大きく */
+}
+
+/* いいねボタン */
+.like-button {
+  background-color: transparent; /* 背景色なし */
+  color: #F2BE2F; /* メインカラー（黄色） */
+  border: none;
+  padding: 15px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* アイコンとテキストを縦揃え */
+  font-size: 20px; /* フォントサイズを大きく */
+  transition: transform 0.2s ease-in-out;
+}
+
+.like-button:hover {
+  color: #E0AC2A; /* マウスオーバー時の色 */
+}
+
+/* ハートアイコン */
+.like-icon {
+  margin-right: 10px;
+  font-size: 30px; /* アイコンサイズを大きく */
+  transition: transform 0.3s ease; /* 震えるアニメーション用 */
+}
+
+/* いいねテキスト */
+.like-text {
+  margin-right: 10px;
+}
+
+/* いいねカウント */
+.like-count {
+  font-size: 20px; /* フォントサイズを大きく */
+}
+
+/* いいねボタンを押したときのアニメーション */
+.like-button:active .like-icon {
+  transform: scale(1.2); /* ハートを大きくして震えるように見せる */
+}
+
+/* ハートアイコンのアニメーション */
+.like-button:active .like-icon {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: scale(1) rotate(0); }
+  25% { transform: scale(1.1) rotate(-10deg); }
+  50% { transform: scale(1) rotate(10deg); }
+  75% { transform: scale(1.1) rotate(-10deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+
+/* 削除セクション */
+.delete-section {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.delete-btn {
+  background-color: #D9534F;
+  color: #FFFFFF;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px; /* フォントサイズを大きく */
+}
+
+.delete-btn:hover {
+  background-color: #C9302C;
+}
+
+/* 保存して編集ボタン */
+.edit-button {
+  display: flex;
+  justify-content: flex-end; /* 右寄せ */
+}
+
+.edit-button button {
+  background-color: #F2BE2F !important; /* メインカラー */
+  color: #FFFFFF !important;
+  padding: 20px 30px;
+  width: 250px !important; /* 横幅を100%にして親コンテナで制御 */
+  max-width: 600px; /* 最大幅を設定 */
+  border: none;
+  border-radius: 10px;
+  font-size: 24px; /* フォントサイズを大きく */
+  cursor: pointer;
+  text-align: center; /* ボタン内のテキストを中央に */
+  transition: all 0.3s ease; /* アニメーションのスムーズさ */
+}
+
+.edit-button button:hover {
+  background-color: #A3B041;
+}
+
+.edit-button:hover {
+    transform: scale(1.05); /* 少し大きくなる */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 優しく浮き上がる感じ */
+    color: #ffffff; /* 文字色を白で保つ */
+}
+
+/* アクティブ時（押した時）のスタイル */
+.edit-button:active {
+  transform: scale(0.98); /* 押し込む感じ */
+  box-shadow: none; /* 影をなくして平面感を出す */
+}
+
+

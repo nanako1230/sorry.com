@@ -1,0 +1,71 @@
+/* 全体の設定 */
+main {
+  margin-top: 200px; /* ヘッダーの高さ分だけ下げる */
+  padding: 20px; /* コンテンツの余白 */
+}
+
+/* コンテンツの中央寄せとスタイル */
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px 40px;
+    background-color: #fff;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 見出しのスタイル */
+h2 {
+    color: #F2BE2F;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #F2BE2F;
+    display: inline-block;
+}
+
+/* リンクのスタイル */
+a {
+    color: #f2be2f;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 他のページへ */
+.other button{
+    background-color: fff;
+    border: 1px solid #f2be2f;
+}
+
+form span {
+    font-size: 0.9em;
+    color: red;
+}
+
+/* フォームのスタイル */
+form {
+    align-items: center; /* 子要素を中央寄せ */
+    max-width: 600px;
+    margin: 100px auto;
+}
+
+form div {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+form button {
+    width: 70%;
+}
+
+
+/* 登録リンクのセクション */
+div a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}

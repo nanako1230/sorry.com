@@ -1,0 +1,146 @@
+/* 基本的なスタイルリセット */
+
+/* コメント投稿セクションのスタイル */
+.comfort-section {
+    margin: 20px;
+    padding: 20px;
+}
+
+.comfort-submit-section {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* スタンプと送信アイコンの間隔 */
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.comfort-submit-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+
+.submit-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stamp-item {
+    display: inline-block;
+    text-align: center;
+}
+
+.stamp-item input[type="radio"] {
+    display: none;
+}
+
+.stamp-item label {
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 6px; /* 少し丸みを抑える */
+    transition: border-color 0.3s;
+}
+
+.stamp-item input[type="radio"]:checked + label {
+    border-color: #F2BE2F; /* メインカラー */
+}
+
+.stamp-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 10%; /* 丸すぎない印象に */
+    background-color: #FFFFFF;
+}
+
+/* コメント送信ボタン */
+#submit-comfort {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+
+#submit-comfort:hover {
+    transform: scale(1.1);
+}
+
+.submit-icon {
+    font-size: 36px; /* アイコンの大きさ */
+    color: #BAC550; /* サブカラー */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#submit-comfort:hover .submit-icon {
+    color: #F2BE2F; /* メインカラーに変化 */
+    transform: rotate(15deg); /* 視覚的な動き */
+}
+
+/* コメント一覧セクションのスタイル */
+.comforts {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+}
+
+/* 個別のコメントスタイル */
+.comfort {
+    margin-bottom: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 画像と吹き出しの間の余白 */
+}
+
+.comfort strong {
+    color: #333;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.comfort img {
+    width: 200px; /* サイズを200pxに設定 */
+    height: 200px;
+    border-radius: 10%; /* 丸すぎない印象 */
+    background-color: #FFFFFF; /* 背景を白に */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影 */
+}
+
+/* コメント吹き出しのスタイル */
+.comfort .comment-bubble {
+    position: relative;
+    padding: 15px; /* 内側の余白を調整 */
+    background-color: #F2BE2F; /* メインカラー */
+    color: white;
+    border-radius: 12px; /* 柔らかな角丸 */
+    max-width: 300px;
+    font-size: 1em;
+    line-height: 1.5;
+    margin-left: 10px;
+}
+
+/* 吹き出しの矢印 */
+.comfort .comment-bubble:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -15px;
+    transform: translateY(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent #F2BE2F transparent transparent;
+}
+
+/* スタンプのリスト */
+.stamp-item input[type="radio"]:checked + label {
+    border-color: #F2BE2F; /* メインカラー */
+}
